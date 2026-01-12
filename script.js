@@ -3,30 +3,30 @@ const WORKER_URL = "https://tribalwars.vascoduartemultimedia.workers.dev/";
 async function loadPlayers() {
     try {
         const response = await fetch(WORKER_URL, { mode: 'cors' });
-        const data = await response.json();
+        const text = await response.text(); // ler como texto
 
-        // Filtrar apenas jogadores válidos
-        const validPlayers = data
-            .filter(player =>
-                player &&
-                typeof player.name === "string" &&
-                player.name.trim().length > 0 &&
-                !isNaN(parseInt(player.points)) &&
-                !isNaN(parseInt(player.villages))
-            )
-            .map(player => ({
-                name: player.name,
-                points: parseInt(player.points),
-                villages: parseInt(player.villages)
-            }));
+        // separar linhas
+        const lines = text.trim().split("\n").filter(line => line && line.includes(","));
 
-        // Ordenar por pontos descrescente
-        validPlayers.sort((a, b) => b.points - a.points);
+        // transformar CSV em objetos
+        const players = lines.map(line => {
+            const [id, name, points, villages] = line.split(",");
+            return {
+                id,
+                name,
+                points: parseInt(points) || 0,
+                villages: parseInt(villages) || 0
+            };
+        });
 
+        // ordenar por pontos descrescente
+        players.sort((a, b) => b.points - a.points);
+
+        // preencher a tabela
         const tbody = document.querySelector("#playersTable tbody");
         tbody.innerHTML = "";
 
-        validPlayers.forEach((player, index) => {
+        players.forEach((player, index) => {
             const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td>${index + 1}</td>
@@ -37,7 +37,7 @@ async function loadPlayers() {
             tbody.appendChild(tr);
         });
 
-        console.log(`Carregados ${validPlayers.length} jogadores`);
+        console.log(`Carregados ${players.length} jogadores`);
 
     } catch (err) {
         console.error("Erro ao carregar jogadores:", err);
