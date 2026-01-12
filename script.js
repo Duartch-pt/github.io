@@ -1,31 +1,37 @@
-const API_URL = "https://tribalwars.vascoduartemultimedia.workers.dev/";
+const WORKER_URL = "https://tribalwars.vascoduartemultimedia.workers.dev/?endpoint=player.txt";
 
 async function loadPlayers() {
-    try {
-        const response = await fetch(API_URL);
-        const players = await response.json();
+  try {
+    const response = await fetch(WORKER_URL);
+    const text = await response.text();
 
-        console.log("Dados recebidos:", players);
+    // O ficheiro player.txt é separado por linhas
+    // Cada linha: player_id|name|points|villages|ally_id
+    const lines = text.trim().split("\n");
 
-        const tbody = document.querySelector("#playersTable tbody");
-        tbody.innerHTML = "";
+    const tbody = document.querySelector("#playersTable tbody");
+    tbody.innerHTML = "";
 
-        players.forEach(player => {
-            const tr = document.createElement("tr");
+    lines.forEach(line => {
+      const parts = line.split("|");
+      const playerName = parts[1];
+      const lootVillages = "-"; // infelizmente player.txt não tem loot diário
+      const plundered = "-"; // idem
+      const gathered = "-"; // idem
 
-            tr.innerHTML = `
-                <td>${player.name}</td>
-                <td>${player.loot_daily ?? "-"}</td>
-                <td>${player.plundered_villages ?? "-"}</td>
-                <td>${player.gathered ?? "-"}</td>
-            `;
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${playerName}</td>
+        <td>${lootVillages}</td>
+        <td>${plundered}</td>
+        <td>${gathered}</td>
+      `;
+      tbody.appendChild(tr);
+    });
 
-            tbody.appendChild(tr);
-        });
-
-    } catch (error) {
-        console.error("Erro:", error);
-    }
+  } catch (err) {
+    console.error("Erro:", err);
+  }
 }
 
 loadPlayers();
