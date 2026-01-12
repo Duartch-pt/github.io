@@ -1,4 +1,4 @@
-const WORKER_URL = "https://tribalwars.vascoduartemultimedia.workers.dev/";
+const WORKER_URL = "https://tribalwars.vascoduartemultimedia.workers.dev/"; // ou URL do proxy funcional
 
 async function loadPlayers() {
     try {
@@ -6,7 +6,9 @@ async function loadPlayers() {
         const players = await response.json();
 
         // Filtrar apenas jogadores válidos
-        const validPlayers = players.filter(p => p.name && p.points && p.villages);
+        const validPlayers = players.filter(p =>
+            p.name && p.points && p.villages
+        );
 
         // Ordenar por pontos descrescente
         validPlayers.sort((a, b) => b.points - a.points);
