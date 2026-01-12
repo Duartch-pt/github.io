@@ -34,6 +34,6 @@ async function loadPlayers() {
     }
 }
 
-// Atualiza a tabela a cada 5 minutos
+// Atualizar a cada 5 minutos
 loadPlayers();
 setInterval(loadPlayers, 5 * 60 * 1000);
