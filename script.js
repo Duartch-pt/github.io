@@ -1,4 +1,4 @@
-const WORKER_URL = "https://SEU_PROXY_FUNCIONAL.workers.dev/"; // substituir pela URL real
+const WORKER_URL = "https://SEU_PROXY_FUNCIONAL.workers.dev/"; // substituir pela URL real do Worker
 
 async function loadPlayers() {
     try {
