@@ -1,8 +1,8 @@
-const WORKER_URL = "https://SEU_PROXY_FUNCIONAL.workers.dev/"; // substituir pela URL real do Worker
+const WORKER_URL = "https://SEU_WORKER_FUNCIONAL.workers.dev/"; // substituir pela URL do Worker
 
 async function loadPlayers() {
     try {
-        const response = await fetch(WORKER_URL, { mode: 'cors' });
+        const response = await fetch(WORKER_URL);
         const players = await response.json();
 
         // Filtrar jogadores válidos
