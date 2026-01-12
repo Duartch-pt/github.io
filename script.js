@@ -27,6 +27,9 @@ async function loadPlayers() {
         tbody.innerHTML = "";
 
         validPlayers.forEach((player, index) => {
+            // Só adiciona jogadores válidos
+            if (!player.name) return;
+
             const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td>${index + 1}</td>
