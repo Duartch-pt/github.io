@@ -1,9 +1,11 @@
-const API_URL = "https://tribalwars.works/api/world/zz1/player";
+const API_URL = "https://tribalwars.vascoduartemultimedia.workers.dev/";
 
 async function loadPlayers() {
     try {
         const response = await fetch(API_URL);
         const players = await response.json();
+
+        console.log("Dados recebidos:", players);
 
         const tbody = document.querySelector("#playersTable tbody");
         tbody.innerHTML = "";
@@ -22,7 +24,7 @@ async function loadPlayers() {
         });
 
     } catch (error) {
-        console.error("Erro ao carregar dados da API:", error);
+        console.error("Erro:", error);
     }
 }
 
