@@ -1,13 +1,14 @@
-const WORKER_URL = "https://tribalwars.vascoduartemultimedia.workers.dev/"; // ou URL do proxy funcional
+// URL do proxy funcional
+const WORKER_URL = "https://tribalwars.vascoduartemultimedia.workers.dev/";
 
 async function loadPlayers() {
     try {
         const response = await fetch(WORKER_URL, { mode: 'cors' });
         const players = await response.json();
 
-        // Filtrar apenas jogadores válidos
+        // Filtrar jogadores válidos
         const validPlayers = players.filter(p =>
-            p.name && p.points && p.villages
+            p.name && !isNaN(p.points) && !isNaN(p.villages)
         );
 
         // Ordenar por pontos descrescente
@@ -28,6 +29,7 @@ async function loadPlayers() {
         });
 
         console.log(`Carregados ${validPlayers.length} jogadores`);
+
     } catch (err) {
         console.error("Erro ao carregar jogadores:", err);
     }
