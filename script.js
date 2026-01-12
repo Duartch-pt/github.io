@@ -5,17 +5,17 @@ async function loadPlayers() {
         const response = await fetch(WORKER_URL);
         const text = await response.text();
 
-        // separar linhas, ignorar comentários ou vazias
-        const lines = text.split("\n").filter(line => line && !line.startsWith("#"));
+        // separar linhas e ignorar vazias
+        const lines = text.trim().split("\n").filter(line => line);
 
         const tbody = document.querySelector("#playersTable tbody");
         tbody.innerHTML = "";
 
         lines.forEach(line => {
-            const parts = line.split("|");
+            const parts = line.split(","); // agora vírgula
             if (parts.length < 2) return; // ignora linhas inválidas
 
-            const playerName = parts[1]; // campo 1 = nome do jogador
+            const playerName = parts[1]; // segundo campo = nome do jogador
 
             const tr = document.createElement("tr");
             tr.innerHTML = `
