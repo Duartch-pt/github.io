@@ -1,4 +1,4 @@
-const API_URL = "https://tribalwars.works/api/world/beta1/player";
+const API_URL = "https://tribalwars.works/api/world/zz1/player";
 
 async function loadPlayers() {
     try {
