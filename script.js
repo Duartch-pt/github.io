@@ -1,5 +1,4 @@
-// URL do proxy funcional
-const WORKER_URL = "https://tribalwars.vascoduartemultimedia.workers.dev/";
+const WORKER_URL = "https://SEU_PROXY_FUNCIONAL.workers.dev/"; // substituir pela URL real
 
 async function loadPlayers() {
     try {
@@ -35,4 +34,6 @@ async function loadPlayers() {
     }
 }
 
+// Atualiza a tabela a cada 5 minutos
 loadPlayers();
+setInterval(loadPlayers, 5 * 60 * 1000);
