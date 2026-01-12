@@ -5,13 +5,23 @@ async function loadPlayers() {
         const response = await fetch(WORKER_URL, { mode: 'cors' });
         const data = await response.json();
 
-        // Filtrar apenas jogadores válidos com nome e pontos
-        const validPlayers = data.filter(player =>
-            player.name && player.points && player.villages
-        );
+        // Filtrar apenas jogadores válidos
+        const validPlayers = data
+            .filter(player =>
+                player &&
+                typeof player.name === "string" &&
+                player.name.trim().length > 0 &&
+                !isNaN(parseInt(player.points)) &&
+                !isNaN(parseInt(player.villages))
+            )
+            .map(player => ({
+                name: player.name,
+                points: parseInt(player.points),
+                villages: parseInt(player.villages)
+            }));
 
         // Ordenar por pontos descrescente
-        validPlayers.sort((a, b) => parseInt(b.points) - parseInt(a.points));
+        validPlayers.sort((a, b) => b.points - a.points);
 
         const tbody = document.querySelector("#playersTable tbody");
         tbody.innerHTML = "";
