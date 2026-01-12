@@ -1,21 +1,20 @@
-const WORKER_URL = "https://tribalwars.vascoduartemultimedia.workers.dev/?endpoint=player.txt";
+const WORKER_URL = "https://tribalwars.vascoduartemultimedia.workers.dev/";
 
 async function loadPlayers() {
     try {
-        const response = await fetch(WORKER_URL);
+        const response = await fetch(WORKER_URL, { mode: 'cors' });
         const text = await response.text();
 
-        // separar linhas e ignorar vazias
         const lines = text.trim().split("\n").filter(line => line);
 
         const tbody = document.querySelector("#playersTable tbody");
         tbody.innerHTML = "";
 
         lines.forEach(line => {
-            const parts = line.split(","); // agora vírgula
-            if (parts.length < 2) return; // ignora linhas inválidas
+            const parts = line.split(","); // CSV separado por vírgula
+            if (parts.length < 2) return;
 
-            const playerName = parts[1]; // segundo campo = nome do jogador
+            const playerName = parts[1]; // campo 1 = nome do jogador
 
             const tr = document.createElement("tr");
             tr.innerHTML = `
